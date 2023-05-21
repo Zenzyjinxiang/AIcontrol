@@ -1,0 +1,54 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <vector>
+#include <map>
+
+// Function to convert the user's input to lowercase
+std::string toLowercase(const std::string& str) {
+    std::string lowerCaseStr = str;
+    std::transform(lowerCaseStr.begin(), lowerCaseStr.end(), lowerCaseStr.begin(), ::tolower);
+    return lowerCaseStr;
+}
+
+int main() {
+    std::map<std::string, std::string> responses = {
+        { "hello", "Hi there!" },
+        { "how are you", "I'm doing well, thank you!" },
+        { "what's your name", "My name is ChatBot." },
+        { "bye", "Goodbye! Have a nice day!" }
+    };
+
+    std::cout << "ChatBot: Hello! How can I assist you today?" << std::endl;
+
+    while (true) {
+        std::cout << "User: ";
+        std::string userInput;
+        std::getline(std::cin, userInput);
+
+        // Convert the user's input to lowercase
+        std::string lowercaseInput = toLowercase(userInput);
+
+        // Check if the user's input matches any of the predefined responses
+        bool responseFound = false;
+        for (const auto& entry : responses) {
+            if (lowercaseInput.find(entry.first) != std::string::npos) {
+                std::cout << "ChatBot: " << entry.second << std::endl;
+                responseFound = true;
+                break;
+            }
+        }
+
+        // If no predefined response is found, provide a default response
+        if (!responseFound) {
+            std::cout << "ChatBot: I'm sorry, but I don't understand. Could you please rephrase?" << std::endl;
+        }
+
+        // Exit the loop if the user says "bye"
+        if (lowercaseInput == "bye") {
+            break;
+        }
+    }
+
+    return 0;
+}
